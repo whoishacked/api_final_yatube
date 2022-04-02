@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
 from posts.models import Follow, Group, Post, User
-from rest_framework import filters, permissions, viewsets
+from rest_framework import filters, mixins, permissions, viewsets
 from rest_framework.pagination import LimitOffsetPagination
 
 from .permissions import OwnerOrReadOnly, ReadOnly
@@ -13,7 +13,7 @@ class GroupViewSet(viewsets.ReadOnlyModelViewSet):
     """Groups. Users can add their posts to groups. Groups aren't editable."""
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    permission_classes = (permissions.AllowAny,)
 
 
 class PostViewSet(viewsets.ModelViewSet):
@@ -58,7 +58,9 @@ class CommentViewSet(viewsets.ModelViewSet):
         serializer.save(author=self.request.user, post=post)
 
 
-class FollowViewSet(viewsets.ModelViewSet):
+class FollowViewSet(mixins.ListModelMixin,
+                    mixins.CreateModelMixin,
+                    viewsets.GenericViewSet):
     """Follows. Authenticated users can follow on authors."""
     serializer_class = FollowSerializer
     permission_classes = (permissions.IsAuthenticated,)
@@ -66,7 +68,7 @@ class FollowViewSet(viewsets.ModelViewSet):
     search_fields = ('user__username', 'following__username',)
 
     def get_queryset(self):
-        queryset = Follow.objects.filter(user=self.request.user)
+        queryset = self.request.user.follower
         return queryset
 
     def perform_create(self, serializer):
