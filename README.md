@@ -67,5 +67,8 @@ http://127.0.0.1:8000/redoc/
 - djangorestframework 3.12.4
 
 Полный список доступен в **requirements.txt**
-## Об авторе
-Меня зовут Андрей, Студент факультета Бэкенд, когорта 30, группа 4.
+
+## Об авторах
+**Кутузов Андрей:**
+- Telegram: @andrewkutuzov
+- Email: britvill@gmail.com
