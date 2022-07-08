@@ -68,7 +68,7 @@ http://127.0.0.1:8000/redoc/
 
 Полный список доступен в **requirements.txt**
 
-## Об авторах
+## Об авторе
 **Кутузов Андрей:**
 - Telegram: @andrewkutuzov
 - Email: britvill@gmail.com
